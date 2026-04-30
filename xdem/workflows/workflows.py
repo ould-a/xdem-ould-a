@@ -276,8 +276,11 @@ class Workflows(ABC):
                 if mask_path in list(_FILEPATHS_ALL.keys()):
                     mask_path = xdem.examples.get_path(mask_path)
 
-                mask = gu.Vector(mask_path)
-                inlier_mask = ~mask.create_mask(dem)
+                try:
+                    mask = gu.Vector(mask_path)
+                    inlier_mask = ~mask.create_mask(dem)
+                except:
+                    mask = gu.Raster(mask_path, is_mask=True)
 
             return dem, inlier_mask, mask_path
         else:
